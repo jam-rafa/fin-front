@@ -2,6 +2,9 @@
 import Api from "./API/index";
 import { IPlanilha } from "./interface";
 import DonutChart from "@/app/component/donoutchart";
+import MonthChart from "@/app/component/monthChart";
+
+import { IMockData } from "./interface-mock";
 
 // Função assíncrona para buscar dados da API
 
@@ -40,7 +43,7 @@ function calcularLucro(total: number, gastos: number) {
 
 async function teste() {
   try {
-    const res = await Api.get<IPlanilha>("/planilha");
+    const res = await Api.get<IMockData[]>("/dados-mockados");
     return res.data;
   } catch (error) {
     console.error("Erro ao buscar dados da API:", error);
@@ -50,30 +53,28 @@ async function teste() {
 
 // Componente Home (funcional) assíncrono
 export default async function Home() {
-  const data = await teste();
+  const data = 'teste'
 
   return (
-    <main className="flex min-h-screen bg-ground text-secondary w-100 p-5 text-light">
+    <main className="min-h-screen bg-ground text-secondary w-100 p-5 text-light">
       {data ? (
         <>
-          <section>
+          <section className="w-100">
             <div className="grid grid-cols-3 gap-5 w-full">
               {/* Primeira linha */}
               <div className="text-light col-span-1 bg-ground-10 rounded-lg shadow-lg p-3 ">
                 <i className="icon-tabler icon-tabler-home"></i>
 
-                {calcularLucro(
-                  data.RESUMO[0]["RECEITA TOTAL MÊS"],
-                  data.RESUMO[0]["DESPESAS TOTAIS DO MÊS"]
-                )}
+     
               </div>
               <div className="text-light col-span-2 bg-ground-10 rounded-lg shadow-lg p-3 ">
-                <h3 className="text-lg">teste</h3>
+                <h3 className="text-lg">teste nosso</h3>
               </div>
 
               {/* Segunda linha */}
-              <div className="col-span-2 bg-ground-10 rounded-lg shadow-lg p-3 ">
+              <div className="col-span-2 bg-ground-10 rounded-lg shadow-lg p-3 w-100 ">
                 <h3 className="text-lg">teste</h3>
+                <MonthChart/>
               </div>
               <div className="col-span-1 w-full flex flex-col gap-4">
                 <div className="h-full bg-ground-10 shadow-lg rounded-lg p-2">
