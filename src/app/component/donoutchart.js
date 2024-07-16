@@ -1,16 +1,39 @@
 "use client"; // Se estiver usando o diretório 'app', adicione esta linha
 
 import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
+import Api from "../API";
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export default function DonutChart() {
+
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await Api.get("/sector");
+        setData(response.data);
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+        setError(error);
+      }
+    }
+    fetchData();
+  }, []);
+
+
+  if (!data) {
+    return <div>Loading...</div>;
+  }
+
   const options = {
     chart: {
       id: "apexchart-example",
       type: "donut",
       width: "100%", // Ajuste a largura do gráfico para ocupar todo o espaço disponível
     },
-
     dataLabels: {
       enabled: false,
       style: {
@@ -19,7 +42,7 @@ export default function DonutChart() {
         fontWeight: "bold",
       },
     },
-    labels: ["Apple", "Mango", "Orange", "Banana", "Pineapple"],
+    labels: data.map(item => item.centroDeCusto),
     stroke: {
       show: true,
       curve: "straight",
@@ -35,7 +58,7 @@ export default function DonutChart() {
       pie: {
         dataLabels: {
           style: {
-            colors: ["#ffffff", "#ffcc00", "#ff6347", "#00ff00", "#6495ed"], // Cores diferentes para cada label
+            colors: ["#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff"], // Cores das labels ajustadas para branco
             fontSize: "14px",
             fontFamily: "Helvetica, Arial, sans-serif",
             fontWeight: "bold",
@@ -45,7 +68,7 @@ export default function DonutChart() {
     },
   };
 
-  const series = [30, 40, 35, 50, 20];
+  const series = data.map((item) => item.totalArrecadado);
 
   return (
     <div>

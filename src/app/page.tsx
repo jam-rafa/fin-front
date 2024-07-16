@@ -59,7 +59,7 @@ export default async function Home() {
     <main className="min-h-screen bg-ground text-secondary w-100 p-5 text-light">
       {data ? (
         <>
-          <section className="w-100">
+          <section className="w-100 p-5">
             <div className="grid grid-cols-3 gap-5 w-full">
               {/* Primeira linha */}
               <div className="text-light col-span-1 bg-ground-10 rounded-lg shadow-lg p-3 ">
@@ -86,7 +86,8 @@ export default async function Home() {
               </div>
 
               {/* Terceira linha */}
-              <div className="col-span-1 bg-ground-10 rounded-lg shadow-lg p-3 ">
+              <div className="col-span-2 bg-ground-10 rounded-lg shadow-lg p-3 w-100 ">
+
                 teste
               </div>
               <div className="col-span-1 bg-ground-10 rounded-lg shadow-lg p-3 ">
@@ -95,9 +96,7 @@ export default async function Home() {
                   <DonutChart />
                 </div>
               </div>
-              <div className="col-span-1 bg-ground-10 rounded-lg shadow-lg p-3 ">
-                teste
-              </div>
+       
             </div>
           </section>
         </>

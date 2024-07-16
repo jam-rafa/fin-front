@@ -1,128 +1,110 @@
 "use client"; // Se estiver usando o diretório 'app', adicione esta linha
 
+import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
+import moment from "moment";
+import Api from "../API";
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export default function MonthChart() {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await Api.get("/finance");
+        setData(response.data);
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+        setError(error);
+      }
+    }
+    fetchData();
+  }, []);
+
+  if (error) {
+    return <div>Error loading data</div>;
+  }
+
+  if (!data) {
+    return <div>Loading...</div>;
+  }
+
+  // Verificar se data contém as propriedades esperadas
+  if (!Array.isArray(data) || data.length === 0) {
+    console.error("Data format is incorrect or empty");
+    return <div>Data format is incorrect or empty</div>;
+  }
+
+  // Formatar os meses para o nome do mês por extenso
+  const categories = data.map(item => moment(item.month).format("MMMM"));
+  const entradas = data.map(item => item.entradas);
+  const saidas = data.map(item => item.saidas);
+  const saldo = data.map(item => item.saldo);
+
   const options = {
     chart: {
       height: 350,
       type: 'line',
-      stacked: false
     },
     dataLabels: {
       enabled: false
     },
     stroke: {
-      width: [1, 1, 4]
-    },
-    title: {
-      text: 'XYZ - Stock Analysis (2009 - 2016)',
-      align: 'left',
-      offsetX: 110
+      width: [4, 4, 4]
     },
     xaxis: {
-      categories: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016],
+      categories: categories,
+      labels: {
+        style: {
+          colors: "#FFFFFF" // Define a cor do texto como branco
+        }
+      }
     },
     yaxis: [
       {
-        seriesName: 'Income',
+        seriesName: 'Valores',
         axisTicks: {
           show: true,
         },
-        axisBorder: {
-          show: true,
-          color: '#008FFB'
-        },
         labels: {
           style: {
-            colors: '#008FFB',
-          }
-        },
-        title: {
-          text: "Income (thousand crores)",
-          style: {
-            color: '#008FFB',
+            colors: '#FFFFFF',
           }
         },
         tooltip: {
           enabled: true
         }
       },
-      {
-        seriesName: 'Cashflow',
-        opposite: true,
-        axisTicks: {
-          show: true,
-        },
-        axisBorder: {
-          show: true,
-          color: '#00E396'
-        },
-        labels: {
-          style: {
-            colors: '#00E396',
-          }
-        },
-        title: {
-          text: "Operating Cashflow (thousand crores)",
-          style: {
-            color: '#00E396',
-          }
-        },
-      },
-      {
-        seriesName: 'Revenue',
-        opposite: true,
-        axisTicks: {
-          show: true,
-        },
-        axisBorder: {
-          show: true,
-          color: '#FEB019'
-        },
-        labels: {
-          style: {
-            colors: '#FEB019',
-          },
-        },
-        title: {
-          text: "Revenue (thousand crores)",
-          style: {
-            color: '#FEB019',
-          }
-        }
-      },
     ],
-    tooltip: {
-      fixed: {
-        enabled: true,
-        position: 'topLeft', // topRight, topLeft, bottomRight, bottomLeft
-        offsetY: 30,
-        offsetX: 60
-      },
+    colors: ['#00FF00', '#FF0000', '#0000FF'], // Verde para Entradas, Vermelho para Saídas, Azul para Saldo
+    grid: {
+      borderColor: '#e0e0e0',
+      strokeDashArray: 1, // Define a opacidade das linhas de fundo
     },
-    legend: {
-      horizontalAlign: 'left',
-      offsetX: 40
+    plotOptions: {
+      bar: {
+        borderRadius: 5 // Define o arredondamento das barras
+      }
     }
   };
 
   const series = [
     {
-      name: 'Income',
+      name: 'Entradas',
       type: 'column',
-      data: [1.4, 2, 2.5, 1.5, 2.5, 2.8, 3.8, 4.6]
+      data: entradas,
     },
     {
-      name: 'Cashflow',
+      name: 'Saídas',
       type: 'column',
-      data: [1.1, 3, 3.1, 4, 4.1, 4.9, 6.5, 8.5]
+      data: saidas
     },
     {
-      name: 'Revenue',
-      type: 'line',
-      data: [20, 29, 37, 36, 44, 45, 50, 58]
+      name: 'Saldo',
+      type: 'column',
+      data: saldo
     }
   ];
 
@@ -132,6 +114,7 @@ export default function MonthChart() {
         type="line"
         options={options}
         series={series}
+        height={500}
       />
     </div>
   );

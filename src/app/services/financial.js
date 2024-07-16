@@ -1,4 +1,4 @@
-export const getMounthChart = async () => {
+ const getMounthChart = async () => {
     try {
       const response = await Api.get("/finance");
       return response;
@@ -8,3 +8,4 @@ export const getMounthChart = async () => {
     }
   };
   
+export default getMounthChart
