@@ -104,7 +104,7 @@ const config: Config = {
           10: "#2D3255",
         },
         light: {
-          DEFAULT: "#9f9fb4",
+          DEFAULT: "#E1DEF5",
         },
       },
       backgroundImage: {

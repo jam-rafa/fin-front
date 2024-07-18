@@ -5,6 +5,8 @@ import DonutChart from "@/app/component/donoutchart";
 import MonthChart from "@/app/component/monthChart";
 
 import { IMockData } from "./interface-mock";
+import MostProfitProducts from "./component/mostProfitProducts";
+import LossProducts from "./component/lossProducts";
 
 // Função assíncrona para buscar dados da API
 
@@ -16,7 +18,7 @@ function calcularLucro(total: number, gastos: number) {
 
   return (
     <div>
-      <div className={`p-3 bg-success/10 rounded-full w-fit text-${colour}`}>
+      <div className={`px-4 py-5 bg-success/10 rounded-full w-fit text-${colour}`}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="30"
@@ -56,24 +58,24 @@ export default async function Home() {
   const data = 'teste'
 
   return (
-    <main className="min-h-screen bg-ground text-secondary w-100 p-5 text-light">
+    <main className="min-h-screen bg-ground w-100 p-5 text-light">
       {data ? (
         <>
           <section className="w-100 p-5">
-            <div className="grid grid-cols-3 gap-5 w-full">
+            <div className="grid lg:grid-cols-3  md:grid-cols-2 sm:grid-cols-1 gap-5 w-full">
               {/* Primeira linha */}
-              <div className="text-light col-span-1 bg-ground-10 rounded-lg shadow-lg p-3 ">
+              <div className="text-light col-span-1 bg-ground-10 rounded-lg shadow-lg px-4 py-5 ">
                 <i className="icon-tabler icon-tabler-home"></i>
 
      
               </div>
-              <div className="text-light col-span-2 bg-ground-10 rounded-lg shadow-lg p-3 ">
+              <div className="text-light md:col-span-2 sm:col-span-1 bg-ground-10 rounded-lg shadow-lg px-4 py-5 ">
                 <h3 className="text-lg">teste nosso</h3>
               </div>
 
               {/* Segunda linha */}
-              <div className="col-span-2 bg-ground-10 rounded-lg shadow-lg p-3 w-100 ">
-                <h3 className="text-lg">teste</h3>
+              <div className="col-span-2 bg-ground-10 rounded-lg shadow-lg px-4 py-5 w-100 ">
+                <h3 className="text-lg">Evolução de faturamento</h3>
                 <MonthChart/>
               </div>
               <div className="col-span-1 w-full flex flex-col gap-4">
@@ -86,16 +88,21 @@ export default async function Home() {
               </div>
 
               {/* Terceira linha */}
-              <div className="col-span-2 bg-ground-10 rounded-lg shadow-lg p-3 w-100 ">
-
-                teste
+              <div className="col-span-1 bg-ground-10 rounded-lg shadow-lg px-4 py-5 w-100 ">
+              Top 6 maiores gastos
+                <LossProducts/>
               </div>
-              <div className="col-span-1 bg-ground-10 rounded-lg shadow-lg p-3 ">
-                gastos por setor
+              <div className="col-span-1 bg-ground-10 rounded-lg shadow-lg px-4 py-5 ">
+                Lucro por setor
                 <div className="h-full w-full flex items-center justify-center">
                   <DonutChart />
                 </div>
               </div>
+              <div className="col-span-1 bg-ground-10 rounded-lg shadow-lg px-4 py-5 w-100 ">
+              Top 6 Produtos Mais Lucrativos
+              <MostProfitProducts/>
+              </div>
+
        
             </div>
           </section>
