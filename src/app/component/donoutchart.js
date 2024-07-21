@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import Api from "../API";
+import { colors } from "@mui/material";
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export default function DonutChart() {
@@ -41,6 +42,7 @@ export default function DonutChart() {
         fontFamily: "Helvetica, Arial, sans-serif",
         fontWeight: "bold",
       },
+
     },
     labels: data.map(item => item.centroDeCusto),
     stroke: {
@@ -51,19 +53,32 @@ export default function DonutChart() {
       width: 2,
       dashArray: 0,
     },
+    legend: {
+      show: true,
+      position: 'bottom',
+      horizontalAlign: 'center',
+      labels: {
+        colors: '#fffffff',
+    },
+    },
     markers: {
-      colors: ["#F44336", "#E91E63", "#9C27B0"],
     },
     plotOptions: {
       pie: {
-        dataLabels: {
-          style: {
-            colors: ["#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff"], // Cores das labels ajustadas para branco
-            fontSize: "14px",
-            fontFamily: "Helvetica, Arial, sans-serif",
-            fontWeight: "bold",
+        donut:{
+          labels: {
+            show: true,
+
           },
-        },
+          position: "bottom",
+          dataLabels: {
+            style: {
+              fontSize: "14px",
+              fontFamily: "Helvetica, Arial, sans-serif",
+              fontWeight: "bold",
+            },
+          },
+        }
       },
     },
   };
@@ -76,7 +91,6 @@ export default function DonutChart() {
         type="donut"
         options={options}
         series={series}
-        height={300}
         width={400} // A largura aqui é apenas uma sugestão, o gráfico vai se ajustar ao espaço disponível
       />
     </div>
