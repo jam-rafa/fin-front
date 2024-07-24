@@ -2,7 +2,8 @@
 
 
 import { useEffect, useState } from "react";
-import Api from "../API";
+import Api from "../../API";
+import FormatMoney from "../../utils/formatMoney";
 
 // Definindo a interface para um produto
 interface IProduct {
@@ -47,7 +48,7 @@ export default function LossProducts() {
           </div>
           <div className="flex flex-col col-span-2 items-start">
             <small className="text-secondary">Receita</small>
-            <p className="col-span-1 ">{product.lucro.toFixed(2)}</p>
+            <p className="col-span-1 ">{FormatMoney(product.lucro.toFixed(2))}</p>
           </div>
           <div className="flex justify-end flex-col items-end">
             <small className="px-2 py-1 text-primary bg-primary-10 rounded">{product.setor}</small>

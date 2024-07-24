@@ -2,14 +2,15 @@ import type { Config } from "tailwindcss";
 
 const config: Config = {
   content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     fontFamily: {
       poppins: ["Poppins", "sans-serif"],
     },
+
     extend: {
       colors: {
         primary: {
@@ -99,8 +100,11 @@ const config: Config = {
         },
 
         ground: {
-          DEFAULT: "#2A2F4F", // Ground (RGB: 42, 47, 79)
+          DEFAULT: "#25293C", // Ground (RGB: 42, 47, 79)
           10: "#2D3255",
+        },
+        card: {
+          DEFAULT: "#2F3349" 
         },
         light: {
           DEFAULT: "#E1DEF5",

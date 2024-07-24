@@ -1,27 +1,14 @@
 "use client"; // Se estiver usando o diretório 'app', adicione esta linha
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import dynamic from "next/dynamic";
-import moment from "moment";
-import Api from "../API";
+import { IMonthChart } from "../../../pages/dashBoard";
+
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-export default function MonthChart() {
-  const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await Api.get("/finance");
-        setData(response.data);
-      } catch (error) {
-        console.error("Error fetching posts:", error);
-        setError(error);
-      }
-    }
-    fetchData();
-  }, []);
+export default function MonthChart({ monthChart }: { monthChart: IMonthChart[] }) {
+  const [data, setData] = useState<IMonthChart[]>(monthChart);
+  const [error, setError] = useState<string | null>(null);
 
   if (error) {
     return <div>Error loading data</div>;
@@ -37,11 +24,10 @@ export default function MonthChart() {
     return <div>Data format is incorrect or empty</div>;
   }
 
-  // Formatar os meses para o nome do mês por extenso
-  const categories = data.map(item => moment(item.month).format("MMMM"));
+  // Formatar os dias para o nome do dia por extenso
+  const days = data.map(item => item.dia);
   const entradas = data.map(item => item.entradas);
   const saidas = data.map(item => item.saidas);
-  const saldo = data.map(item => item.saldo);
 
   const options = {
     chart: {
@@ -52,13 +38,16 @@ export default function MonthChart() {
       enabled: false
     },
     stroke: {
-      width: [4, 4, 4]
+      width: [2, 3]
     },
     xaxis: {
-      categories: categories,
+      categories: days,
       labels: {
         style: {
           colors: "#FFFFFF" // Define a cor do texto como branco
+        },
+        formatter: function (value: string) {
+          return value;
         }
       }
     },
@@ -71,21 +60,41 @@ export default function MonthChart() {
         labels: {
           style: {
             colors: '#FFFFFF',
+          },
+          formatter: function (value: number) {
+            return new Intl.NumberFormat('pt-BR', {
+              style: 'currency',
+              currency: 'BRL'
+            }).format(value);
           }
         },
         tooltip: {
-          enabled: true
+          enabled: true,
+          theme: 'dark',
+          style: {
+            fontSize: '12px',
+            background: '#9f7aea', // Define a cor de fundo da tooltip
+            color: '#FFFFFF',
+          },
         }
       },
     ],
-    colors: ['#00FF00', '#FF0000', '#0000FF'], // Verde para Entradas, Vermelho para Saídas, Azul para Saldo
+    
+    colors: ['#9f7aea', '#ecc94b', '#0000FF'], // Verde para Entradas, Vermelho para Saídas, Azul para Saldo
+      legend: {
+        show: true,
+        position: 'bottom',
+        horizontalAlign: 'center',
+        labels: {
+          colors: '#fffffff',
+      },
+    },
     grid: {
-      borderColor: '#e0e0e0',
-      strokeDashArray: 1, // Define a opacidade das linhas de fundo
+      show: false
     },
     plotOptions: {
       bar: {
-        borderRadius: 5 // Define o arredondamento das barras
+        borderRadius: 2 // Define o arredondamento das barras
       }
     }
   };
@@ -98,14 +107,9 @@ export default function MonthChart() {
     },
     {
       name: 'Saídas',
-      type: 'column',
-      data: saidas
+      type: 'line',
+      data: saidas,
     },
-    {
-      name: 'Saldo',
-      type: 'column',
-      data: saldo
-    }
   ];
 
   return (
@@ -114,7 +118,7 @@ export default function MonthChart() {
         type="line"
         options={options}
         series={series}
-        height={500}
+        height={400}
       />
     </div>
   );

@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
-import Api from "../API";
+import Api from "../../API";
 import { colors } from "@mui/material";
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
@@ -24,7 +24,6 @@ export default function DonutChart() {
     fetchData();
   }, []);
 
-
   if (!data) {
     return <div>Loading...</div>;
   }
@@ -39,10 +38,8 @@ export default function DonutChart() {
       enabled: false,
       style: {
         fontSize: "14px",
-        fontFamily: "Helvetica, Arial, sans-serif",
-        fontWeight: "bold",
+        fontFamily: "Poppins, Arial, sans-serif",
       },
-
     },
     labels: data.map(item => item.centroDeCusto),
     stroke: {
@@ -58,29 +55,45 @@ export default function DonutChart() {
       position: 'bottom',
       horizontalAlign: 'center',
       labels: {
-        colors: '#fffffff',
-    },
-    },
-    markers: {
+        colors: '#ffffff',
+      },
     },
     plotOptions: {
       pie: {
-        donut:{
+        donut: {
           labels: {
             show: true,
-
+            total: {
+              show: true,
+              label: 'Total',
+              formatter: function (value) {
+                return new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL'
+                }).format(value);
+              }
+            }
           },
           position: "bottom",
           dataLabels: {
             style: {
               fontSize: "14px",
-              fontFamily: "Helvetica, Arial, sans-serif",
-              fontWeight: "bold",
+              fontFamily: "Poppins, Arial, sans-serif",
             },
           },
         }
       },
     },
+    tooltip: {
+      y: {
+        formatter: function (value) {
+          return new Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+          }).format(value);
+        }
+      }
+    }
   };
 
   const series = data.map((item) => item.totalArrecadado);

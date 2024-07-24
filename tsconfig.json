@@ -21,6 +21,13 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "pages/dashBoard.tsx",
+    "pages/index.tsx"
+, "app/component/dashboard/donoutchart.js"  ],
   "exclude": ["node_modules"]
 }
