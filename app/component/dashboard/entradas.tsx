@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from "react";
 import Api from "../../API";
-import FormatMoney from "@/app/utils/formatMoney"
+import FormatMoney from "../../utils/formatMoney";
 
 // Definindo a interface para um produto
 interface IProduct {

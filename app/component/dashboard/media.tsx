@@ -22,13 +22,13 @@ export default function Media({media}: {media: Imedia}) {
 
   return (
 
-    <>
-        <div className="flex gap-2 justify-between">
+    <div className="flex flex-col h-[94%]">
+        <div className="flex gap-2 justify-around grow items-center">
             <div>
-                <p>{FormatMoney(data.mediaEntradaMensal)}</p>
+                <p className="text-xl">{FormatMoney(data.mediaEntradaMensal)}</p>
             </div>
             <div>
-                <p>{FormatMoney(data.mediaSaidaMensal)}</p>
+                <p className="text-xl">{FormatMoney(data.mediaSaidaMensal)}</p>
             </div>
         </div>
         <div className="flex gap-1 w-full">
@@ -51,6 +51,6 @@ export default function Media({media}: {media: Imedia}) {
             </div>
         </div>
 
-    </>
+    </div>
   );
 }

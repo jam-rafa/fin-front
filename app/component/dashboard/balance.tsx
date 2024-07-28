@@ -23,7 +23,8 @@ interface IApiResponse {
   lucroPrejuizoPercentChange: number;
 }
 
-export default function Balance({ title, total }) {
+
+export default function Balance({ title, total }: {title: string, total: number}) {
   const [data, setData] = useState<IApiResponse | null>(null);
 
   useEffect(() => {

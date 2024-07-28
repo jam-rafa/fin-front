@@ -3,6 +3,7 @@
 import { useState } from "react";
 import dynamic from "next/dynamic";
 import { IMonthChart } from "../../../pages/dashBoard";
+import { ApexOptions } from "apexcharts"; // Importar os tipos de ApexCharts
 
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
@@ -29,10 +30,10 @@ export default function MonthChart({ monthChart }: { monthChart: IMonthChart[] }
   const entradas = data.map(item => item.entradas);
   const saidas = data.map(item => item.saidas);
 
-  const options = {
+  const options: ApexOptions = {
     chart: {
       height: 350,
-      type: 'line',
+      type: "line",
     },
     dataLabels: {
       enabled: false
@@ -68,25 +69,15 @@ export default function MonthChart({ monthChart }: { monthChart: IMonthChart[] }
             }).format(value);
           }
         },
-        tooltip: {
-          enabled: true,
-          theme: 'dark',
-          style: {
-            fontSize: '12px',
-            background: '#9f7aea', // Define a cor de fundo da tooltip
-            color: '#FFFFFF',
-          },
-        }
       },
     ],
-    
     colors: ['#9f7aea', '#ecc94b', '#0000FF'], // Verde para Entradas, Vermelho para Saídas, Azul para Saldo
-      legend: {
-        show: true,
-        position: 'bottom',
-        horizontalAlign: 'center',
-        labels: {
-          colors: '#fffffff',
+    legend: {
+      show: true,
+      position: 'bottom',
+      horizontalAlign: 'center',
+      labels: {
+        colors: '#FFFFFF',
       },
     },
     grid: {
@@ -102,12 +93,12 @@ export default function MonthChart({ monthChart }: { monthChart: IMonthChart[] }
   const series = [
     {
       name: 'Entradas',
-      type: 'column',
+      type: "column" as const,
       data: entradas,
     },
     {
       name: 'Saídas',
-      type: 'line',
+      type: "line" as const,
       data: saidas,
     },
   ];
