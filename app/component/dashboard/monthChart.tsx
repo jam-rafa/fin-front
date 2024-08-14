@@ -81,7 +81,8 @@ export default function MonthChart({ monthChart }: { monthChart: IMonthChart[] }
       },
     },
     grid: {
-      show: false
+      show: true,
+      strokeDashArray: 15
     },
     plotOptions: {
       bar: {

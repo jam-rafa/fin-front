@@ -1,6 +1,5 @@
 
-import { useEffect, useState } from "react";
-import Api from "../../API";
+import { useState } from "react";
 import FormatMoney from "../../utils/formatMoney";
 import { Imedia } from "../../../pages/dashBoard";
 
@@ -23,13 +22,26 @@ export default function Media({media}: {media: Imedia}) {
   return (
 
     <div className="flex flex-col h-[94%]">
-        <div className="flex gap-2 justify-around grow items-center">
-            <div>
+        <div className="flex gap-2 justify-between grow items-center">
+            <div className="flex flex-col gap-2 ">
+                <div className="flex gap-2 items-center">
+                    <div className="p-1 bg-success/20 text-success rounded ">
+                        <svg  xmlns="http://www.w3.org/2000/svg"  width="20"  height="20"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-trending-up"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 17l6 -6l4 4l8 -8" /><path d="M14 7l7 0l0 7" /></svg>                
+                    </div>
+                    <span className="text-secondary/90">Entradas</span>
+                </div>
                 <p className="text-xl">{FormatMoney(data.mediaEntradaMensal)}</p>
             </div>
-            <div>
-                <p className="text-xl">{FormatMoney(data.mediaSaidaMensal)}</p>
-            </div>
+            <div className="h-[70%] w-[2px] bg-secondary/50"></div>
+            <div className="flex flex-col gap-2 ">
+                <div className="flex gap-2 items-center">
+                        <div className="p-1 bg-danger/20 text-danger rounded ">
+                        <svg  xmlns="http://www.w3.org/2000/svg"  width="20"  height="20"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-trending-down"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 7l6 6l4 -4l8 8" /><path d="M21 10l0 7l-7 0" /></svg>
+                        </div>
+                        <span className="text-secondary/90">Saídas</span>
+                    </div>
+                    <p className="text-xl">{FormatMoney(data.mediaSaidaMensal)}</p>
+                </div>
         </div>
         <div className="flex gap-1 w-full">
             <div

@@ -59,7 +59,7 @@ const DashBoard = ({ data, cashFlow, media }: {data: IBalance, cashFlow: IMonthC
           <h3 className="text-lg">Evolução de faturamento</h3>
           <MonthChart monthChart={cashFlow} />
         </div>
-        <div className="col-span-1 w-full flex flex-col gap-4">
+        <div className="col-span-1 w-full h-full flex flex-col gap-4">
           <div className="h-full bg-card shadow-lg rounded-lg px-4 py-5">
             <h3>Média de movimentações</h3>
             <Media media={media}/>
