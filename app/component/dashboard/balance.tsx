@@ -47,7 +47,7 @@ export default function Balance({ title, total }: {title: string, total: number}
     <>
       <h2 className="">{title}</h2>
       <section className="gap-2 mt-4">
-        <div className="text-4xl ">{FormatMoney(total)}</div>
+        <div className="text-3xl ">{FormatMoney(total)}</div>
         <div className="flex gap-2 items-center mt-3">
           <span className="bg-secondary-10 px-2 rounded text-secondary flex items-center ">
             <span>0 {data.lucroPrejuizoPercentChange} %</span>
