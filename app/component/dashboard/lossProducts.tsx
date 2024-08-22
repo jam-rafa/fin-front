@@ -44,7 +44,7 @@ export default function LossProducts() {
         <li key={index} className="grid grid-cols-7 px-2 gap-2 w-full items-center self-center mb-3 mt-4 h-full">
           <div className="flex col-span-4 gap-3 items-center">
             <p className="px-3 py-1 bg-danger-10 text-danger rounded">{index + 1}</p>             
-            <p>{product.produto}</p>
+            <p className="text-sm">{product.produto}</p>
           </div>
           <div className="flex flex-col col-span-2 items-start">
             <small className="text-secondary">Receita</small>
