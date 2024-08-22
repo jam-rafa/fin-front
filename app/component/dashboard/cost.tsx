@@ -9,14 +9,17 @@ import { ApexOptions } from "apexcharts";
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export default function Costs({ cost }: { cost: Icost }) {
-  // Definindo o estado inicial diretamente a partir da prop `cost`
-  const [data] = useState<Icost>(cost);
+  const [data, setData] = useState<Icost | null>(cost);
+
+  if (!data) {
+    return <div>Carregando...</div>;
+  }
 
   return (
-    <section className="mt-4 h-full relative">
+    <section className="mt-4 h-full">
       <div className="flex gap-4 items-center mt-2">
         <div className="p-2 bg-primary/20 text-primary rounded flex items-center">
-          <svg
+        <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
             height="24"
@@ -42,9 +45,9 @@ export default function Costs({ cost }: { cost: Icost }) {
         </div>
       </div>
 
-      <div className="flex gap-4 items-center mt-6">
-        <div className="p-2 bg-info/20 text-info rounded flex items-center">
-          <svg
+    <div className="flex gap-4 items-center mt-6">
+    <div className="p-2 bg-info/20 text-info rounded flex items-center">
+    <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
             height="24"
@@ -65,13 +68,13 @@ export default function Costs({ cost }: { cost: Icost }) {
           </svg>
         </div>
         <div>
-          <p className="text-xl">{FormatMoney(data.variavel)}</p>
-          <small className="text-secondary">Custos variáveis</small>
+            <p className="text-xl">{FormatMoney(data.variavel)}</p>
+            <small className="text-secondary">Custos variaveis</small>
         </div>
-      </div>
-      
-      <div className="w-10 h-[40%] bg-primary/50 border-2 border-primary absolute rounded bottom-0 right-16"></div>
-      <div className="w-10 h-[80%] bg-info/50 absolute border-2 border-info rounded bottom-0 right-5"></div>
+    </div>
+    <div className="w-10 h-[40%] bg-primary/50 border-2 border-primary absolute rounded bottom-0 right-16"></div>
+    <div className="w-10 h-[80%] bg-info/50 absolute border-2 border-info rounded bottom-0 right-5"></div>
+
     </section>
   );
 }
