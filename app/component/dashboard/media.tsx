@@ -6,15 +6,14 @@ import { Imedia } from "../../../pages/dashBoard";
 // Certifique-se de que a interface Imedia esteja correta no seu projeto
 
 export default function Media({ media }: { media: Imedia }) {
-    const [data, setData] = useState<Imedia>(media);
 
-    if (!data) {
+    if (!media) {
         return <div>Carregando...</div>;
     }
 
-    const totalDays = data.daysWithData + data.daysWithNoData;
-    const daysWithDataPercentage = totalDays > 0 ? (data.daysWithData / totalDays) * 100 : 0;
-    const daysWithNoDataPercentage = totalDays > 0 ? (data.daysWithNoData / totalDays) * 100 : 0;
+    const totalDays = media.daysWithData + media.daysWithNoData;
+    const daysWithDataPercentage = totalDays > 0 ? (media.daysWithData / totalDays) * 100 : 0;
+    const daysWithNoDataPercentage = totalDays > 0 ? (media.daysWithNoData / totalDays) * 100 : 0;
 
     return (
         <div className="flex flex-col h-[94%]">
@@ -41,7 +40,7 @@ export default function Media({ media }: { media: Imedia }) {
                         </div>
                         <span className="text-secondary/90">Entradas</span>
                     </div>
-                    <p className="text-xl">{FormatMoney(data.mediaEntradaMensal)}</p>
+                    <p className="text-xl">{FormatMoney(media.mediaEntradaMensal)}</p>
                 </div>
                 <div className="h-[70%] w-[2px] bg-secondary/50"></div>
                 <div className="flex flex-col gap-2 ">
@@ -66,7 +65,7 @@ export default function Media({ media }: { media: Imedia }) {
                         </div>
                         <span className="text-secondary/90">Saídas</span>
                     </div>
-                    <p className="text-xl">{FormatMoney(data.mediaSaidaMensal)}</p>
+                    <p className="text-xl">{FormatMoney(media.mediaSaidaMensal)}</p>
                 </div>
             </div>
             <div className="flex gap-1 w-full">
@@ -76,7 +75,7 @@ export default function Media({ media }: { media: Imedia }) {
                         <div className="bg-primary py-2 w-1 rounded-full mb-2"></div>
                         <small className="text-secondary">Dias ativos</small>
                     </div>
-                    <p>{data.daysWithData}</p>
+                    <p>{media.daysWithData}</p>
                 </div>
                 <div style={{ width: `${daysWithNoDataPercentage}%` }}>
                     <div className="bg-info h-[4px] rounded"></div>
@@ -84,7 +83,7 @@ export default function Media({ media }: { media: Imedia }) {
                         <div className="bg-info py-2 w-1 rounded-full mb-2"></div>
                         <small className="text-secondary">Dias inativos</small>
                     </div>
-                    <p>{data.daysWithNoData}</p>
+                    <p>{media.daysWithNoData}</p>
                 </div>
             </div>
         </div>

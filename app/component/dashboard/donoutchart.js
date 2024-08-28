@@ -3,7 +3,6 @@
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import Api from "../../API";
-import { colors } from "@mui/material";
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export default function DonutChart() {
@@ -30,9 +29,8 @@ export default function DonutChart() {
 
   const options = {
     chart: {
-      id: "apexchart-example",
-      type: "donut",
-      width: "100%", // Ajuste a largura do gráfico para ocupar todo o espaço disponível
+      parentHeightOffset: 0,
+      type: 'donut'
     },
     dataLabels: {
       enabled: false,
@@ -43,12 +41,10 @@ export default function DonutChart() {
     },
     labels: data.map(item => item.centroDeCusto),
     stroke: {
-      show: true,
+      show: false,
       curve: "straight",
       lineCap: "butt",
       colors: undefined,
-      width: 2,
-      dashArray: 0,
     },
     legend: {
       show: true,
@@ -64,7 +60,7 @@ export default function DonutChart() {
           labels: {
             show: true,
             total: {
-              show: true,
+              show: false,
               label: 'Total',
               formatter: function (value) {
                 return new Intl.NumberFormat('pt-BR', {
@@ -104,7 +100,7 @@ export default function DonutChart() {
         type="donut"
         options={options}
         series={series}
-        width={400} // A largura aqui é apenas uma sugestão, o gráfico vai se ajustar ao espaço disponível
+        width={500} // A largura aqui é apenas uma sugestão, o gráfico vai se ajustar ao espaço disponível
       />
     </div>
   );

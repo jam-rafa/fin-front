@@ -4,43 +4,21 @@
 import { useEffect, useState } from "react";
 import Api from "../../API";
 import FormatMoney from "../../utils/formatMoney";
+import { ILossResp } from "../../../pages/dashBoard";
 
-// Definindo a interface para um produto
-interface IProduct {
-  produto: string;
-  lucro: number;
-  quantidade: number;
-  setor: string
-}
 
-// Definindo a interface para a resposta da API
-interface IApiResponse {
-  topProducts: IProduct[];
-  valorTotalLucro: number;
-}
 
-export default function LossProducts() {
-  const [data, setData] = useState<IApiResponse | null>(null);
+export default function LossProducts({lossProducts} : {lossProducts: ILossResp}) {
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await Api.get<IApiResponse>("/loss-products");
-        setData(response.data);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    }
-    fetchData();
-  }, []);
 
-  if (!data) {
+
+  if (!lossProducts) {
     return <div>Carregando...</div>;
   }
 
   return (
     <ul>
-      {data.topProducts.map((product, index) => (
+      {lossProducts.topProducts.map((product, index) => (
         <li key={index} className="grid grid-cols-7 px-2 gap-2 w-full items-center self-center mb-3 mt-4 h-full">
           <div className="flex col-span-4 gap-3 items-center">
             <p className="px-3 py-1 bg-danger-10 text-danger rounded">{index + 1}</p>             

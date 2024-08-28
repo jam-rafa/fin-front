@@ -8,32 +8,34 @@ import { ApexOptions } from "apexcharts"; // Importar os tipos de ApexCharts
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export default function MonthChart({ monthChart }: { monthChart: IMonthChart[] }) {
-  const [data, setData] = useState<IMonthChart[]>(monthChart);
   const [error, setError] = useState<string | null>(null);
 
   if (error) {
     return <div>Error loading data</div>;
   }
 
-  if (!data) {
+  if (!monthChart) {
     return <div>Loading...</div>;
   }
 
-  // Verificar se data contém as propriedades esperadas
-  if (!Array.isArray(data) || data.length === 0) {
+  // Verificar se monthChart contém as propriedades esperadas
+  if (!Array.isArray(monthChart) || monthChart.length === 0) {
     console.error("Data format is incorrect or empty");
     return <div>Data format is incorrect or empty</div>;
   }
 
   // Formatar os dias para o nome do dia por extenso
-  const days = data.map(item => item.dia);
-  const entradas = data.map(item => item.entradas);
-  const saidas = data.map(item => item.saidas);
+  const days = monthChart.map(item => item.label);
+  const entradas = monthChart.map(item => item.entradas);
+  const saidas = monthChart.map(item => item.saidas);
 
   const options: ApexOptions = {
     chart: {
-      height: 350,
+      height: 400,
       type: "line",
+      toolbar: {
+        show: false
+      }
     },
     dataLabels: {
       enabled: false
@@ -45,7 +47,7 @@ export default function MonthChart({ monthChart }: { monthChart: IMonthChart[] }
       categories: days,
       labels: {
         style: {
-          colors: "#FFFFFF" // Define a cor do texto como branco
+          colors: "#718096" // Define a cor do texto como branco
         },
         formatter: function (value: string) {
           return value;
@@ -60,7 +62,7 @@ export default function MonthChart({ monthChart }: { monthChart: IMonthChart[] }
         },
         labels: {
           style: {
-            colors: '#FFFFFF',
+            colors: '#718096',
           },
           formatter: function (value: number) {
             return new Intl.NumberFormat('pt-BR', {
@@ -81,25 +83,31 @@ export default function MonthChart({ monthChart }: { monthChart: IMonthChart[] }
       },
     },
     grid: {
-      show: true,
-      strokeDashArray: 5
+      borderColor: '#7180964D' ,
+      xaxis: {
+        lines: {
+          show: true
+        }
+      }
     },
     plotOptions: {
       bar: {
         borderRadius: 2 // Define o arredondamento das barras
       }
     }
+    
+    
   };
 
   const series = [
-    {
-      name: 'Entradas',
-      type: "column" as const,
-      data: entradas,
-    },
+    // {
+    //   name: 'Entradas',
+    //   type: "line" as const,
+    //   data: entradas,
+    // },
     {
       name: 'Saídas',
-      type: "line" as const,
+      type: "column" as const,
       data: saidas,
     },
   ];
@@ -110,7 +118,7 @@ export default function MonthChart({ monthChart }: { monthChart: IMonthChart[] }
         type="line"
         options={options}
         series={series}
-        height={400}
+        height={430}
       />
     </div>
   );

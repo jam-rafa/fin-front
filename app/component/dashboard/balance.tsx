@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Api from "../../API";
 import FormatMoney from "../../utils/formatMoney";
+import { IconReportMoney } from '@tabler/icons-react';
 
 // Definindo a interface para um produto
 interface IProduct {
@@ -24,7 +25,7 @@ interface IApiResponse {
 }
 
 
-export default function Balance({ title, total }: {title: string, total: number}) {
+export default function Balance({ title, total, icon }: {title: string, total: number, icon:any}) {
   const [data, setData] = useState<IApiResponse | null>(null);
 
   useEffect(() => {
@@ -44,17 +45,25 @@ export default function Balance({ title, total }: {title: string, total: number}
   }
 
   return (
-    <>
-      <h2 className="">{title}</h2>
-      <section className="gap-2 mt-4">
-        <div className="text-3xl ">{FormatMoney(total)}</div>
-        <div className="flex gap-2 items-center mt-3">
-          <span className="bg-secondary-10 px-2 rounded text-secondary flex items-center ">
-            <span>0 {data.lucroPrejuizoPercentChange} %</span>
-          </span>
-          <span className="text-secondary">vs ultimo mes anterior</span>
-        </div>
+    <div className="flex flex-col items-center justify-center h-full text-center gap-2 relative">
+
+      <span className="bg-secondary-10 px-2 rounded text-secondary text-sm flex items-center absolute bottom-0 right-1">
+        <span>0 {data.lucroPrejuizoPercentChange} %</span>
+      </span>
+
+
+      <div className="text-primary">
+        {icon}
+      </div>
+
+      <section className="flex flex-col mt-1 items-center">
+        <div className="text-2xl">{FormatMoney(total)}</div>
       </section>
-    </>
+      <h2 className="text-lg text-secondary">{title}</h2>
+    </div>
   );
+  
 }
+
+
+

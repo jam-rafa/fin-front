@@ -85,7 +85,6 @@ const config: Config = {
           80: "rgba(72, 187, 120, 0.8)",
           90: "rgba(72, 187, 120, 0.9)",
         },
-
         attention: {
           DEFAULT: "#ed8936", // Laranja
           10: "rgba(237, 137, 54, 0.1)",
@@ -98,7 +97,6 @@ const config: Config = {
           80: "rgba(237, 137, 54, 0.8)",
           90: "rgba(237, 137, 54, 0.9)",
         },
-
         ground: {
           DEFAULT: "#25293C", // Ground (RGB: 42, 47, 79)
           10: "#2D3255",
@@ -114,6 +112,14 @@ const config: Config = {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      },
+      screens: {
+        'sm': '640px', // Pequeno
+        'md': '768px', // Médio
+        'lg': '1024px', // Grande
+        'xl': '1280px', // Extra Grande
+        '2xl': '1536px', // Extra Extra Grande
+        'lx': '1440px', // Personalizado: Extra Large
       },
     },
   },
