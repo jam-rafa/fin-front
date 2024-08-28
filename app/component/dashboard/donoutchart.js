@@ -3,27 +3,13 @@
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import Api from "../../API";
+import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-export default function DonutChart() {
+export default function DonutChart({section}) {
 
-  const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await Api.get("/sector");
-        setData(response.data);
-      } catch (error) {
-        console.error("Error fetching posts:", error);
-        setError(error);
-      }
-    }
-    fetchData();
-  }, []);
-
-  if (!data) {
+  if (!section) {
     return <div>Loading...</div>;
   }
 
@@ -39,7 +25,7 @@ export default function DonutChart() {
         fontFamily: "Poppins, Arial, sans-serif",
       },
     },
-    labels: data.map(item => item.centroDeCusto),
+    labels: section.map(item => item.centroDeCusto),
     stroke: {
       show: false,
       curve: "straight",
@@ -92,10 +78,11 @@ export default function DonutChart() {
     }
   };
 
-  const series = data.map((item) => item.totalArrecadado);
+  const series = section.map((item) => item.totalArrecadado);
 
   return (
     <div>
+      
       <ApexChart
         type="donut"
         options={options}

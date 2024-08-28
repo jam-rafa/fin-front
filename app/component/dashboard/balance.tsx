@@ -47,9 +47,9 @@ export default function Balance({ title, total, icon }: {title: string, total: n
   return (
     <div className="flex flex-col items-center justify-center h-full text-center gap-2 relative">
 
-      <span className="bg-secondary-10 px-2 rounded text-secondary text-sm flex items-center absolute bottom-0 right-1">
+      {/* <span className="bg-secondary-10 px-2 rounded text-secondary text-sm flex items-center absolute bottom-0 right-1">
         <span>0 {data.lucroPrejuizoPercentChange} %</span>
-      </span>
+      </span> */}
 
 
       <div className="text-primary">

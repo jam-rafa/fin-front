@@ -9,9 +9,8 @@ import { ApexOptions } from "apexcharts";
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export default function Costs({ cost }: { cost: Icost }) {
-  const [data, setData] = useState<Icost | null>(cost);
 
-  if (!data) {
+  if (!cost) {
     return <div>Carregando...</div>;
   }
 
@@ -40,7 +39,7 @@ export default function Costs({ cost }: { cost: Icost }) {
           </svg>
         </div>
         <div>
-          <p className="text-xl mb-0">{FormatMoney(data.fixo)}</p>
+          <p className="text-xl mb-0">{FormatMoney(cost.fixo)}</p>
           <small className="text-secondary">Custos fixos</small>
         </div>
       </div>
@@ -68,7 +67,7 @@ export default function Costs({ cost }: { cost: Icost }) {
           </svg>
         </div>
         <div>
-            <p className="text-xl">{FormatMoney(data.variavel)}</p>
+            <p className="text-xl">{FormatMoney(cost.variavel)}</p>
             <small className="text-secondary">Custos variaveis</small>
         </div>
     </div>

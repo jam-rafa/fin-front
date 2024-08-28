@@ -70,7 +70,7 @@ export interface ILossResp {
 }
 
 
-const DashBoard = ({ profitProducts, lossProducts,initialData, initialCashFlow, initialMedia, initialCost, wekendlyGrowth }: {profitProducts: ILossResp,  lossProducts:ILossResp, wekendlyGrowth: IWekendlyGrowth[], initialData: IBalance, initialCashFlow: IMonthChart[], initialMedia: Imedia, initialCost: Icost,  }) => {
+const DashBoard = ({section,  profitProducts, lossProducts,initialData, initialCashFlow, initialMedia, initialCost, wekendlyGrowth }: {section: any, profitProducts: ILossResp,  lossProducts:ILossResp, wekendlyGrowth: IWekendlyGrowth[], initialData: IBalance, initialCashFlow: IMonthChart[], initialMedia: Imedia, initialCost: Icost,  }) => {
   const defaultMonth = moment().month() - 1;
   const [date, setDate] = useState(-1);
   const [data, setData] = useState(initialData);
@@ -81,7 +81,7 @@ const DashBoard = ({ profitProducts, lossProducts,initialData, initialCashFlow, 
   const [montGrowth, setMonthGrowth] = useState(wekendlyGrowth)
   const [lossProductsState, setLossProductsState] = useState(lossProducts)
   const [profitProductsState, setProfitProductsState] = useState(profitProducts)
-
+  const [sectionState, setSectionState] = useState(section)
   const fetchData = async (selectedDate: number) => {
     if(firstLoad === 0 ) {
       setfirstLoad(firstLoad + 1)
@@ -90,14 +90,16 @@ const DashBoard = ({ profitProducts, lossProducts,initialData, initialCashFlow, 
     try {
       let dateString = ''
       if(selectedDate > 0) dateString = moment().month(selectedDate).format('YYYY-MM');
-      const [balanceRes, financeRes, mediaRes, costRes, lossProducts, profitProducts ,wekendlyGrowthRes] = await Promise.all([
+      const [balanceRes, financeRes, mediaRes, costRes, lossProducts, profitProducts ,wekendlyGrowthRes, section] = await Promise.all([
         Api.get(`/balance?date=${dateString}`),
         Api.get(`/finance?date=${dateString}`),
         Api.get(`/media?date=${dateString}`),
         Api.get(`/costs?date=${dateString}`),
         Api.get(`/loss-products/?date=${dateString}`),
         Api.get(`/profit-products/?date=${dateString}`),
-        Api.get(`monthly-growth/?date=${dateString}`)
+        Api.get(`monthly-growth/?date=${dateString}`),
+        Api.get(`/sector/?date=${dateString}`)
+
       ]);
       setData(balanceRes.data);
       setCashFlow(financeRes.data);
@@ -106,6 +108,7 @@ const DashBoard = ({ profitProducts, lossProducts,initialData, initialCashFlow, 
       setLossProductsState(lossProducts.data)
       setProfitProductsState(profitProducts.data)
       setMonthGrowth(wekendlyGrowthRes.data)
+      setSectionState(section.data)
       
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -144,7 +147,7 @@ const DashBoard = ({ profitProducts, lossProducts,initialData, initialCashFlow, 
           </div>
           <div className="col-span-4 w-full h-full flex flex-col gap-4">
             <div className="h-full bg-card shadow-lg rounded px-5 py-5">
-              <h3>Média de movimentações</h3>
+              <h3>Média de movimentações diária</h3>
               <Media media={media} />
             </div>
             <div className="h-full bg-card shadow-lg rounded px-5 relative">
@@ -155,18 +158,19 @@ const DashBoard = ({ profitProducts, lossProducts,initialData, initialCashFlow, 
 
           {/* Terceira linha */}
           <div className="col-span-4 bg-card rounded shadow-lg px-4 py-5 w-100">
-            Top 6 maiores gastos
+            Top maiores saídas
             <LossProducts lossProducts={lossProductsState} />
           </div>
-          <div className="col-span-4 bg-card rounded shadow-lg px-4 py-5">
+          <div className="relative col-span-4 bg-card rounded shadow-lg px-4 py-5">
             <h3>Centro de custo</h3>
-            <div className="h-full w-full flex items-center justify-center">
-              <DonutChart />
+            <small className="text-secondary ">Entradas por centro de custo</small>
+            <div className=" h-full w-full flex items-center justify-center">
+              <DonutChart section={sectionState} />
             </div>
           </div>
           <Link href="/products" className="col-span-4 bg-card rounded shadow-lg px-4 py-5 w-100">
             <div className="">
-              Top 6 Produtos Mais Lucrativos
+              Top maiores entradas
               <MostProfitProducts profitProducts={profitProductsState} />
             </div>
           </Link>
@@ -186,6 +190,7 @@ export async function getServerSideProps(context: { query: { date?: string } }) 
   let wekendlyGrowth = await Api.get(`monthly-growth?date=${date}`)
   let lossProducts = await Api.get("/loss-products");
   let profitProducts = await Api.get("/profit-products");
+  let section = await Api.get("/sector");
 
 
 
@@ -196,6 +201,7 @@ export async function getServerSideProps(context: { query: { date?: string } }) 
   wekendlyGrowth = wekendlyGrowth.data
   lossProducts = lossProducts.data
   profitProducts = profitProducts.data
+  section = section.data
 
   return {
     props: {
@@ -205,7 +211,8 @@ export async function getServerSideProps(context: { query: { date?: string } }) 
       initialCost: cost,
       wekendlyGrowth,
       lossProducts,
-      profitProducts
+      profitProducts,
+      section
     },
   };
 }
