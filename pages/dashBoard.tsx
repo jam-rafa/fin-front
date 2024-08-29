@@ -190,7 +190,7 @@ export async function getServerSideProps(context: { query: { date?: string } }) 
   let wekendlyGrowth = await Api.get(`monthly-growth?date=${date}`)
   let lossProducts = await Api.get("/loss-products");
   let profitProducts = await Api.get("/profit-products");
-  let section = await Api.get("/sector");
+  let section = await Api.get(`/sector?date=${date}`);
 
 
 
