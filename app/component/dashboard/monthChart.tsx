@@ -32,7 +32,7 @@ export default function MonthChart({ monthChart }: { monthChart: IMonthChart[] }
   const options: ApexOptions = {
     chart: {
       height: 400,
-      type: "line",
+      type: "area",
       toolbar: {
         show: false
       }
@@ -54,6 +54,7 @@ export default function MonthChart({ monthChart }: { monthChart: IMonthChart[] }
         }
       }
     },
+    
     yaxis: [
       {
         seriesName: 'Valores',

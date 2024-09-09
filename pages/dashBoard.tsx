@@ -120,7 +120,7 @@ const DashBoard = ({section,  profitProducts, lossProducts,initialData, initialC
   }, [date]);
 
   return (
-    <div className="w-100 p-1">
+    <div className="w-100 p-1 p-5">
       <section className="w-full mb-8 rounded">
         <FiltersDash date={date} setDate={setDate} />
       </section>
